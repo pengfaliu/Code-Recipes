@@ -1,0 +1,47 @@
+#!/bin/bash
+# author: pengfaliu@163.com
+# description: scan new physical disk and tell linux kernel to know it.
+# date: 2016.12.23 12:00
+# 
+#
+# for scsi disk and network devices.
+# related file 
+# /sys/block  directory
+# /sys/class/scsi_host/ direcotry
+# /proc/scsi/scsi file 
+
+. /etc/profile
+
+scan_file="scan"
+host_scan_dir="/sys/class/scsi_host/"
+
+function ScanNewPhysicalDisk()
+    hosts_devices=$(ls -l $host_scan_dir)
+    for host_device in $hosts_devices
+    do
+        echo "- - -" > $host_scan_dir/$host_device/$scan_file
+    done
+    echo "scan success."
+    echo "please use fdisk or parted which effect from you disk size, more 2T disk, I suggest you to use parted tool"
+    
+function ScanNetworkDevice()
+    start_udev
+    echo "find out and check it"
+    
+function AddSingleDevice()
+    local scsi_device_id=$1
+    local channel_id=$2
+    local id=$3
+    local lun=${a:-0}
+    echo "scsi add-single-device $scsi_device_id $channel_id $id $lun" > /proc/scsi/scsi
+    
+function RemoveSingleDevice()
+    local scsi_device_id=$1
+    local channel_id=$2
+    local id=$3
+    local lun=${a:-0}
+    echo "scsi remove-single-device $scsi_device_id $channel_id $id $lun" > /proc/scsi/scsi
+    
+function main()
+    if [[ "$1" == "scan" ]]:then
+        ScanNewPhysicalDisk
