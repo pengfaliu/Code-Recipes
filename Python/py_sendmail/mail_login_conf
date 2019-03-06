@@ -1,0 +1,21 @@
+#这个配置文件是ini的格式，在这里配置的是python 发送端的登录信息
+#
+#
+#
+####sender#####
+#
+[sender]
+nickname = 运维小妹
+mail_host = mail.msxf.com
+mail_user = monitor 
+mail_pass = d_}IV9lI?|19sf 
+mail_postfix = @msxf.com
+
+
+#if you want to connect mysql and query something.oracle not support.
+[database]
+host =192.168.54.12
+port =3306
+user = msfinancewebrw
+password =msfinanceweb678^&*
+database = msfinanceweb
