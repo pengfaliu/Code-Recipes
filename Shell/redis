@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# chkconfig: - 85 15
+# description: redis is a World Wide Web server. It is used to serve
+# Source Function Library
+. /etc/init.d/functions
+
+# Nginx Settings
+REDIS_SBIN="/usr/local/bin/redis-server"
+REDIS_CONF="/export/servers/redis-2.4.13/"
+REDIS_PID="/export/servers/redis-2.4.13/logs/"
+PID=($(ps -ef|grep redis |grep -v grep |awk '{print $2}'))
+RETVAL=0
+prog="Redis"
+
+start() {
+        echo -n $"Starting $prog: "
+        mkdir -p /dev/shm/redis_temp
+	for i in `seq 0 7` 
+		do 
+	        nohup $REDIS_SBIN $REDIS_CONF/redis${i}.conf >${REDIS_PID}redis${i}.out &
+		done
+ 	       RETVAL=$?
+        	echo
+      		return $RETVAL
+}
+
+stop() {
+        echo -n $"Stopping $prog: "
+	for i in ${PID[@]}
+	do
+		kill $i
+	done
+        	rm -rf /dev/shm/redis_temp
+        	RETVAL=$?
+        	echo
+        	return $RETVAL
+}
+
+restart(){
+        stop
+        start
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|reload|restart|configtest}"
+        RETVAL=1
+esac
+
+exit $RETVAL
+
