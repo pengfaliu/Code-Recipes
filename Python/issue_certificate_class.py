@@ -31,18 +31,18 @@ class IssueCertificate(object):
     def __init__(self):
         """Constructor"""
         #issuer information
-        self.common_name = u'Happycfc.com CA'
-        self.organization_name = u'Happycfc.com'
+        self.common_name = u'Root CA'
+        self.organization_name = u'Root'
         self.country_name = u'CN'
         self.state_or_province_name = u'BEIJING'
         self.organization_unit_name = u'architecture centre'
-        self.issuer_email_address = u'liufapeng@Happycfc.com'
+        self.issuer_email_address = u'pengfaliu@163.com'
         
         #valid date for certificate (day)
         self.default_days = 1
                 
         # the format for certificate
-        self.rootCA_private_key_and_certificate_of_PEM = "HcfcRooCA.pem"
+        self.rootCA_private_key_and_certificate_of_PEM = "PaulRooCA.pem"
         self.rootCA_certificate = "HcfcRootCA.crt"
 
         
@@ -191,7 +191,7 @@ class IssueCertificate(object):
             fout.write(public_bytes)        
 
 if __name__ == "__main__":
-    subject_name = "www.happycfc.lo"
+    subject_name = u"www.test.lo"
     test = IssueCertificate()
     test.GenerateRootCertificate()
     test.GenerateSubjectCertificate(subject_domain=subject_name)
