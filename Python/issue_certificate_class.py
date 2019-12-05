@@ -43,7 +43,7 @@ class IssueCertificate(object):
                 
         # the format for certificate
         self.rootCA_private_key_and_certificate_of_PEM = "PaulRooCA.pem"
-        self.rootCA_certificate = "HcfcRootCA.crt"
+        self.rootCA_certificate = "PaulRootCA.crt"
 
         
     #----------------------------------------------------------------------
