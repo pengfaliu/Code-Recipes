@@ -135,6 +135,7 @@ class IssueCertificate(object):
         #subject certificate information
         subject_private_key_and_certificate_of_PEM = subject_domain+".pem"
         subject_certificate = subject_domain+".crt"
+        subject_private_key = subject_domain+".key"
         
         #颁发者的相关信息
         ca_name = self.GenerateRootCertificate()[0]
@@ -188,10 +189,20 @@ class IssueCertificate(object):
         with open(subject_private_key_and_certificate_of_PEM, "wb") as fout:
             fout.write(private_bytes + public_bytes)        
         with open(subject_certificate, "wb") as fout:
-            fout.write(public_bytes)        
+            fout.write(public_bytes)
+        with open(subject_private_key,"wb") as fout:
+            fout.write(private_bytes)
 
 if __name__ == "__main__":
-    subject_name = u"www.test.lo"
-    test = IssueCertificate()
-    test.GenerateRootCertificate()
-    test.GenerateSubjectCertificate(subject_domain=subject_name)
+    import sys
+    
+    try:
+        #subject_name = u"www.test.lo"
+        subject_name = unicode(sys.argv[1])
+        test = IssueCertificate()
+        test.GenerateRootCertificate()
+        test.GenerateSubjectCertificate(subject_domain=subject_name)
+        
+    except(IndexError):
+        print("please input domain.")
+        
